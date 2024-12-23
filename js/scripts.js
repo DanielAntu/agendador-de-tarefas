@@ -101,7 +101,12 @@ const createBox = (task) => {
     button.id = "delete";
     button.innerHTML = '<i class="bi bi-x-lg"></i>';
     button.addEventListener("click", () => {
-        deleteTask(task.id, box);
+        const confirmDelete = confirm(
+            "Tem certeza que deseja deletar essa tarefa?"
+        );
+        if (confirmDelete) {
+            deleteTask(task.id, box);
+        }
     });
     box.appendChild(button);
     return box;
