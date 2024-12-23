@@ -84,7 +84,10 @@ const deleteTask = (id, element) => {
     saveData(tasks);
     gridContainer.removeChild(element);
     message("Tarefa deletada com sucesso!");
-    createP(tasks);
+    const taskFilter = dateEqual(tasks, montherSpan, yearSpan);
+    if (taskFilter.length === 0) {
+        createP(taskFilter);
+    }
 };
 
 // cria um card no html
