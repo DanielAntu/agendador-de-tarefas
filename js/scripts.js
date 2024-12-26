@@ -12,6 +12,7 @@ const description = document.querySelector("#description");
 const gridContainer = document.querySelector(".grid-container");
 const searchDate = document.querySelector("#search-date");
 const searchBtn = document.querySelector("#search-btn");
+const dateP = document.querySelector(".date p");
 
 // localStorage
 const saveData = (tasks) => {
@@ -30,7 +31,7 @@ const initialize = () => {
     const dateActualy = new Date();
     montherSpan.innerText = dateActualy.getMonth() + 1;
     yearSpan.innerText = dateActualy.getFullYear();
-    const tasksFilter = dateEqual(tasks, montherSpan, yearSpan);
+    const tasksFilter = dateEqual(tasks, dateP);
     insertAndRemoveElement(tasksFilter);
 };
 
@@ -84,10 +85,8 @@ const deleteTask = (id, element) => {
     saveData(tasks);
     gridContainer.removeChild(element);
     message("Tarefa deletada com sucesso!");
-    const taskFilter = dateEqual(tasks, montherSpan, yearSpan);
-    if (taskFilter.length === 0) {
-        createP(taskFilter);
-    }
+    const taskFilter = dateEqual(tasks, dateP);
+    createP(taskFilter);
 };
 
 // cria um card no html
@@ -135,8 +134,8 @@ const insertBox = (tasks) => {
 };
 
 // procura dentro da lista de tarefas a data corta o dia e compara com mes e ano
-const dateEqual = (tasks, montherSpan, yearSpan) => {
-    const montherYear = `${montherSpan.innerText}/${yearSpan.innerText}`;
+const dateEqual = (tasks, dateP) => {
+    const montherYear = dateP.innerText;
     tasksFilter = tasks.filter((task) => task.date.slice(3) === montherYear);
     return tasksFilter;
 };
@@ -201,14 +200,14 @@ rightBtn.addEventListener("click", () => {
         yearValue += 1;
         yearSpan.innerText = yearValue;
         montherSpan.innerText = formatMonth(monthValue);
-        tasksFilter = dateEqual(tasks, montherSpan, yearSpan);
+        tasksFilter = dateEqual(tasks, dateP);
         insertAndRemoveElement(tasksFilter);
         searchDate.value = "";
         return;
     }
     monthValue += 1;
     montherSpan.innerText = formatMonth(monthValue);
-    tasks_teste = dateEqual(tasks, montherSpan, yearSpan);
+    tasks_teste = dateEqual(tasks, dateP);
     insertAndRemoveElement(tasksFilter);
     searchDate.value = "";
 });
@@ -222,14 +221,14 @@ leftBtn.addEventListener("click", () => {
         yearSpan.innerText = yearValue;
         montherSpan.innerText = formatMonth(monthValue);
         montherSpan.innerText = formatMonth(monthValue);
-        tasksFilter = dateEqual(tasks, montherSpan, yearSpan);
+        tasksFilter = dateEqual(tasks, dateP);
         insertAndRemoveElement(tasksFilter);
         searchDate.value = "";
         return;
     }
     monthValue -= 1;
     montherSpan.innerText = formatMonth(monthValue);
-    tasksFilter = dateEqual(tasks, montherSpan, yearSpan);
+    tasksFilter = dateEqual(tasks, dateP);
     insertAndRemoveElement(tasksFilter);
     searchDate.value = "";
 });
@@ -251,7 +250,7 @@ sendBtn.addEventListener("click", () => {
         description: description.value,
     };
 
-    const monthYear = `${montherSpan.innerText}/${yearSpan.innerText}`;
+    const monthYear = dateP.innerText;
 
     dateSchedule.value = "";
     description.value = "";
